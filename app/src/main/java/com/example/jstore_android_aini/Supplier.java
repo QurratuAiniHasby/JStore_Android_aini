@@ -1,6 +1,7 @@
 package com.example.jstore_android_aini;
 
 public class Supplier {
+
     private int id;
     private String name;
     private String email;
@@ -9,70 +10,52 @@ public class Supplier {
 
     public Supplier(int id, String name, String email, String phoneNumber, Location location)
     {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.location = location;
+        this.id=id;
+        this.name=name;
+        this.email=email;
+        this.phoneNumber=phoneNumber;
+        this.location=location;
     }
-    public int getId()
-    {
+
+    public int getId(){
         return id;
     }
 
-    public String getName()
-    {
+    public String getName(){
         return name;
     }
 
-    public String getEmail()
-    {
+    public String getEmail(){
         return email;
     }
 
-    public String getPhoneNumber()
-    {
+    public String getPhoneNumber(){
         return phoneNumber;
     }
 
-    public Location getLocation()
-    {
+    public Location getLocation(){
         return location;
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
+    public void setId(int id){
+        this.id=id;
     }
 
-    public void setName(String name)
-    {
-        this.name = name;
+    public void setName(String name){
+        this.name=name;
     }
 
-    public void setEmail(String email)
-    {
-        this.email = email;
+    public void setEmail(String email){
+        this.email=email;
     }
 
-    public void setPhoneNumber(String phoneNumber)
-    {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String phoneNumber){
+        this.phoneNumber=phoneNumber;
     }
 
-    public void setLocation(Location location)
-    {
-        this.location = location;
+    public void setLocation(Location location){
+        this.location=location;
     }
 
-    public String toString()
-    {
-        System.out.println("==========SUPPLIER==========");
-        System.out.println("ID : " + id);
-        System.out.println("Nama supplier : " + name);
-        System.out.println("Email : " + email);
-        System.out.println("Nomor telepon : " + phoneNumber);
-        System.out.println("Lokasi : " + location.getCity());
-        return "";
-    }
+
 }

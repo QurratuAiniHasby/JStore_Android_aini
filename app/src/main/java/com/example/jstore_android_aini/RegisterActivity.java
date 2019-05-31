@@ -1,11 +1,13 @@
 package com.example.jstore_android_aini;
 
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -14,47 +16,86 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class RegisterActivity extends AppCompatActivity
-{
+public class RegisterActivity extends AppCompatActivity {
 
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        final EditText fullnameInput = (EditText) findViewById(R.id.nameInput);
-        final EditText emailInput = (EditText) findViewById(R.id.emailInput);
-        final EditText passInput = (EditText) findViewById(R.id.passInput);
-        final Button registerButton = (Button) findViewById(R.id.registerButton);
+
+        final EditText nameInput = (EditText) findViewById(R.id.nameInput);
+        final EditText emailInput = (EditText) findViewById(R.id.emailRegInput);
+        final EditText passInput = (EditText) findViewById(R.id.passRegInput);
+        final Button registerButton = (Button) findViewById(R.id.regButton);
+        final EditText userInput = (EditText) findViewById(R.id.usernameInput);
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
-                final String fullName = fullnameInput.getText().toString();
+            public void onClick(View v) {
+                final String name = nameInput.getText().toString();
                 final String email = emailInput.getText().toString();
                 final String password = passInput.getText().toString();
-                Response.Listener<String> responseListener = new Response.Listener<String>()
-                {
+                final String username = userInput.getText().toString();
+
+                if (name.isEmpty()) {
+                    nameInput.setError("Name Field Required");
+                    nameInput.requestFocus();
+                    return;
+                }
+                if (username.isEmpty()) {
+                    userInput.setError("Username field required");
+                    userInput.requestFocus();
+                    return;
+                }
+                if (email.isEmpty()) {
+                    emailInput.setError("Email field required");
+                    emailInput.requestFocus();
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    emailInput.setError("Email is not valid");
+                    emailInput.requestFocus();
+                    return;
+                }
+
+                if (password.isEmpty()) {
+                    passInput.setError("Password field required");
+                    passInput.requestFocus();
+                    return;
+                }
+                if (password.isEmpty()) {
+                    passInput.setError("Password is Empty");
+                    passInput.requestFocus();
+                    return;
+                }
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
                     @Override
-                    public void onResponse(String response)
-                    {
-                        try
-                        {
+                    public void onResponse(String response) {
+                        try {
                             JSONObject jsonResponse = new JSONObject(response);
-                            if (jsonResponse != null)
-                            {
+                            if(jsonResponse!=null){
                                 AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                                builder.setMessage("Register Success !").create().show();
+                                builder.setMessage("Register success!").create().show();
+                                finish();
                             }
-                        }
-                        catch (JSONException e) {
+                        } catch (JSONException e) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(RegisterActivity.this);
-                            builder.setMessage("Register Failed!").create().show();
+                            builder.setMessage("Register failed!").create().show();
                         }
                     }
                 };
-                RegisterRequest registerRequest = new RegisterRequest(fullName, email, password, responseListener);
+
+                RegisterRequest registerRequest = new RegisterRequest(name, email,username, password, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
+            }
+        });
+
+        final TextView loginClickable = (TextView) findViewById(R.id.loginClickable);
+        loginClickable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }
